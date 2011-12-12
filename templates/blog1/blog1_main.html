@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Блог / frnky.com{% endblock %}
+
+{% block body_class %}blog1{% endblock %}
+
+{% block body_content %}
+	<header>
+		frnky.com
+	</header>
+
+	<div class="wrapper-outer main" role="main" data-blogMode="{% block blog_mode %}{% endblock %}">
+		<div class="wrapper-inner">
+			<div class="content">{% block blog_content %}{% endblock %}</div>
+			
+			<div class="sidebar">{% include "blog1/blog1_sidebar.html" %}</div>
+		</div>
+	</div>
+{% endblock %}

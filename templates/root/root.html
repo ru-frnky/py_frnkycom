@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% load markdown_filter %}
+
+{% block title %}frnky.com{% endblock %}
+
+{% block body_class %}root{% endblock %}
+
+{% block body_content %}
+	<header>
+		frnky.com
+	</header>
+
+	<div class="wrapper-outer main" role="main">
+		<div class="wrapper-inner">
+			<div class="frame">
+				{{ pageContent|markdown:"" }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "blog1/blog1_main.html" %}
+
+{% load markup %}
+
+{% block blog_mode %}blogentry{% endblock %}
+
+{% block title %}{% if post.title %}{{ post.title }}{% else %}Запись #{{ post.id }}{% endif %} / Блог / frnky.com{% endblock %}
+{% block blog_content %}				
+				<div class="post">
+					<div class="post-content {% if post.specClass %} {{ post.specClass }}{% endif %}">
+						{% if post %}{{ post.contents|markdown }}{% else %}<p>Записи не существует.{% endif %}
+						<div style="clear:both;"></div>
+					</div>
+					{% if post %}{% include "blog1/blog1_inc_thinheader.html" %}{% endif %}
+				</div>
+				{% include "blog1/blog1_blogentry_comments.html" %}
+{% endblock %}

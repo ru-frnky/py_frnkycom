@@ -1,0 +1,69 @@
+{% extends "blog1/blog1_main.html" %}
+
+{% load markup %}
+
+{% block blog_mode %}blogpage{% endblock %}
+{% block blog_content %}
+	{% if user.is_authenticated and user.is_staff %}
+				<div class="post post_addpost">
+					<form id="addpost" action="" method="post" style="display:none;">
+						<div class="ajax_list" id="post_grabbings">
+							<a class="ajax ajax_list_header" href="#" onClick="return false;">список захваченных записей</a>
+							<div class="ajax_list_inner">
+							{% for grabbing in grabbings %}
+								<div id="post_grabbing" data-datetime_local="{{ grabbing.datetime_local }}" data-grabbingId="{{ grabbing.id }}" data-title="{{ grabbing.title }}" data-contents="{{ grabbing.contents }}"><img src="{{ grabbing.sourceAcc.view_imgpath }}" /><a class="thin" href="#" onClick="return false;"><span class="blur"><span id="datetime">{{ grabbing.datetime_remote_srt }}</span> - </span><span id="title">{{ grabbing }}</span></a></div>
+							{% empty %}
+								<span class="ajax_list_empty" id="ajax_list_empty">нет захваченных записей</span>
+								<div id="post_grabbing" data-datetime_local="" data-grabbingId="" data-title="" data-contents="" style="display:none;"><img src="" /><a class="thin" href="#" onClick="return false;"><span class="blur"><span id="datetime"></span> - </span><span id="title"></span></a></div>
+							{% endfor %}
+							</div>
+						</div>
+						
+						<input type="text" class="addpost" value="" id="addpost_title" name="addpost_title" maxlength="255" placeholder="Заголовок записи" />
+						<textarea class="addpost" id="addpost_content" name="addpost_content" maxlength="4096" placeholder="Текст записи"></textarea>
+						<input type="hidden" name="grabbing_id" id="addpost_grabbing_id" value="" />
+						<div class="awesome_ajax_select" id="awesome_ajax_select" data-name="addpost_category">
+							<a class="ajax" data-value="micro" href="#" onClick="return false;">Микро</a>
+							<a class="ajax" data-value="misc" href="#" onClick="return false;">Днявка</a>
+							<a class="ajax" data-value="serious" href="#" onClick="return false;">Серьёзное</a>
+						</div>
+						
+						<div id="post_clearform" style="display:none;" class="awesome_ajax_select"><a class="thin" href="#" onClick="return false;"><span id="title" class="emphasis">очистить форму</span></a></div>
+						
+						<div class="ajax_list" id="post_transls">
+							<a class="ajax ajax_list_header" href="#" onClick="return false;">список опций трансляции</a>
+							<div class="ajax_list_inner">
+							{% for acc in transAccs %}
+								<div id="post_translAcc" data-translAccId="{{ acc.id }}">
+									<input type="hidden" name="isTransldTo_{{ acc.id }}" id="addpost_isTransld" value="" />
+									<img src="{{ acc.view_imgpath }}" /><a id="activate" class="thin" href="#" onClick="return false;"><span id="title">транслировать в {{ acc }}</span></a>
+								</div>
+							{% empty %}
+								<span class="ajax_list_empty" id="ajax_list_empty">нет опций трансляции</span>
+							{% endfor %}
+							</div>
+						</div>
+						
+						<div class="link_big"><a class="ajax" href="#" onClick="return false;" id="post_submit">Отправить</a></div>
+					</form>
+					<div class="link_big"><a class="ajax" href="#" onClick="return false;" id="post_add">Добавить запись</a></div>
+				</div>
+	{% endif %}
+	{% for post in posts %}
+				<div class="post" id="post" data-postId="{{ post.id }}">
+					<div class="post-content {% if post.specClass %} {{ post.specClass }}{% endif %}">
+						{{ post.postContent|markdown }}
+						{% if post.isCut %}<div class="cut"><a href="{{ BLOG_RELATIVE_ROOT }}/{{ post.id }}">Читать дальше →</a></div>{% endif %}
+						<div style="clear:both;"></div>
+					</div>
+					{% include "blog1/blog1_inc_thinheader.html" %}
+				</div>
+	{% empty %}
+				<div class="post">
+					<div class="post-content">
+						<p>Нет постов на такой странице в этой категории.
+					</div>
+				</div>
+	{% endfor %}
+				{% include "blog1/blog1_inc_pageswitch.html" %}
+{% endblock %}

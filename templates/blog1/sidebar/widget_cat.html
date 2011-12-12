@@ -1,0 +1,6 @@
+				<div class="widget">
+					<p><a href="{{ BLOG_RELATIVE_ROOT }}/" class="ajax{% if not catName and not noCat %} selected{% else %}{% endif %}">Все записи</a><br />
+					{% for category in categories %}
+						<a href="{{ BLOG_RELATIVE_ROOT }}/category/{{ category.slug }}" class="ajax{% ifequal category.slug catName %} selected{% endifequal %}">{{ category.name }}</a><br />
+					{% endfor %}
+				</div>

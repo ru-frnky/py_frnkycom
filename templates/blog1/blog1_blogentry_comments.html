@@ -1,0 +1,30 @@
+{% load markup %}
+
+{% if post %}<div class="post_comment comments_header" id="comments_header" {% if not post.comments_num %}style="display:none;"{% endif %}>
+					Комментарии (<span id="num_comments">{{ post.comments_num }}</span>):
+				</div>
+				
+				<div class="post_comment comments_addcomment" id="addcomment_form">
+					<form id="comment" action="" method="post"{% if comment_errors %} class="errors"{% endif %}>						
+						{% csrf_token %}
+						<input type="hidden" value="{{post.id}}" name="post_id" />
+						<input type="text" value="{{comment_username}}" id="comment_username" name="username" maxlength="255"{% if 'username' in comment_errors %} class="invalid"{% endif %} />
+						<textarea id="comment_content" name="content" maxlength="4096"{% if 'content' in comment_errors %} class="invalid"{% endif %}>{{comment_content}}</textarea>
+						
+						<input type="submit" value="Отправить" />
+						<a class="ajax" href="#" onClick="return false;" id="comment_submit">Отправить</a>
+					</form>
+					<a class="ajax" href="#" onClick="return false;" id="comment_add">Добавить комментарий</a>
+				</div>
+				{% for comment in comments %}
+				<div class="post_comment" id="post_comment" data-datetime="{{ comment.datetime }}" data-commentId="{{ comment.id }}">
+					<div class="thin-header"><img src="/static/img/icons/current_design-icon.png" /><a href="#" onClick="return false;" class="thin" id="comment_username">{{ comment.author_name }}</a><span class="blur">  - <span id="comment-datetime">{{ comment.datetime_hr }}</span></span>{% if user.is_authenticated and user.is_staff %}&nbsp;&nbsp;&nbsp;<a class="nope" id="comment_delete_link" href="#" onClick="return false;"><img src="/static/img/misc/delete.png" /></a>{% endif %}</div>
+					<div id="comment-content">{{ comment.contents|markdown:"safe" }}</div>
+				</div>
+				{% endfor %}
+				<div class="post_comment" id="post_comment" data-datetime="" data-commentId="" style="display:none;">
+					<div class="thin-header"><img src="/static/img/icons/current_design-icon.png" /><a href="#" onClick="return false;" class="thin" id="comment_username"></a><span class="blur">  - <span id="comment-datetime"></span></span>{% if user.is_authenticated and user.is_staff %}&nbsp;&nbsp;&nbsp;<a class="nope" id="comment_delete_link" href="#" onClick="return false;"><img src="/static/img/misc/delete.png" /></a>{% endif %}</div>
+					<div id="comment-content"></div>
+				</div>
+<div id="loading" style="position:absolute;background: #fff url('/static/img/misc/loading.png') center no-repeat;opacity: 0.7;display:none;"></div>
+<div id="error" style="position:absolute;background: #fff;color: #d00;display:none;font-size: 30px;padding:12px;text-align:center;border-radius:15px;border: 2px #ccc solid;"></div>{% endif %}

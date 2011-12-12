@@ -1,0 +1,6 @@
+{% if blog_page_nums %}<div class="pageswitch">
+				{% for blog_page_num in blog_page_nums %}
+					{% ifequal blog_page_num 0 %} ... {% else %}<a class="ajax{% ifequal blog_page_num pageNum %} selected{% endifequal %}" href="{{ BLOG_RELATIVE_ROOT }}{% if catName %}/category/{{ catName }}{% endif %}/page/{{ blog_page_num }}">{{ blog_page_num }}</a>{% endifequal %}
+				{% endfor %}
+				</div>
+{% endif %}
