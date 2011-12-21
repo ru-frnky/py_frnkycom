@@ -296,13 +296,13 @@ h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, 
 	margin-top:	0 !important;
 }
 
-span.float-left {
+.float-left {
 	display:	block;
 	float:		left !important;
 	clear:		left !important;
 }
 
-span.float-right {
+.float-right {
 	display:	block;
 	float:		right !important;
 	clear:		right !important;

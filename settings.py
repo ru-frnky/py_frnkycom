@@ -13,7 +13,6 @@ MANAGERS = ADMINS
 
 
 
-# TODO: Unsure if I am doing this right
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
